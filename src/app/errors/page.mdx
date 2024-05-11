@@ -6,32 +6,32 @@ export const metadata = {
 
 # Errors
 
-In this guide, we will talk about what happens when something goes wrong while you work with the API. Mistakes happen, and mostly they will be yours, not ours. Let's look at some status codes and error types you might encounter. {{ className: 'lead' }}
+In this guide, we will talk about what happens when something goes wrong while you work with the API. Mistakes happen, and mostly they will be the users, not API's. Let's look at some status codes and error types you might encounter. {{ className: 'lead' }}
 
-You can tell if your request was successful by checking the status code when receiving an API response. If a response comes back unsuccessful, you can use the error type and error message to figure out what has gone wrong and do some rudimentary debugging (before contacting support).
+The user can tell their your request was successful by checking the status code when receiving an API response. If a response comes back unsuccessful, the user can use the error type and error message to figure out what has gone wrong and do some rudimentary debugging.
 
 <Note>
-  Before reaching out to support with an error, please be aware that 99% of all
+  Before freaking out with an error, please be aware that 72% of all
   reported errors are, in fact, user errors. Therefore, please carefully check
-  your code before contacting Protocol support.
+  if everything is in order with the request.
 </Note>
 
 ---
 
 ## Status codes
 
-Here is a list of the different categories of status codes returned by the Protocol API. Use these to understand if a request was successful.
+Here is a list of the different categories of status codes returned by the LetsGo API. Use these to understand if a request was successful.
 
 <Properties>
   <Property name="2xx">
     A 2xx status code indicates a successful response.
   </Property>
   <Property name="4xx">
-    A 4xx status code indicates a client error — this means it's a _you_
+    A 4xx status code indicates a client error — this means it's a _user_
     problem.
   </Property>
   <Property name="5xx">
-    A 5xx status code indicates a server error — you won't be seeing these.
+    A 5xx status code indicates a server error — the user won't be seeing these `hopefully`.
   </Property>
 </Properties>
 
@@ -42,29 +42,54 @@ Here is a list of the different categories of status codes returned by the Proto
 <Row>
   <Col>
 
-    Whenever a request is unsuccessful, the Protocol API will return an error response with an error type and message. You can use this information to understand better what has gone wrong and how to fix it. Most of the error messages are pretty helpful and actionable.
+    Whenever a request is unsuccessful, the LetsGo API will return an error response. The user can use this information to understand better what has gone wrong and how to fix it. Most of the error messages are pretty helpful and actionable.
 
-    Here is a list of the two error types supported by the Protocol API — use these to understand what you have done wrong.
+    Here is a list of the two error types supported by the LetsGo API — use these to understand what the user has done wrong.
 
     <Properties>
-      <Property name="api_error">
-        This means that we made an error, which is highly speculative and unlikely.
+      <Property name="401 Unathorized">
+        This means that the user cannot acces this information, for example: a user cannot acces admin actions.
       </Property>
-      <Property name="invalid_request">
-        This means that you made an error, which is much more likely.
+      <Property name="400 Bad Request">
+        This means that the user has made an error with the request, in this example, the admin did not provide an image for the request resulting in a `Zod` error.
       </Property>
     </Properties>
 
   </Col>
   <Col>
 
-    ```bash {{ title: "Error response" }}
+    ```bash {{ title: "401 Unathorized" }}
     {
-      "type": "api_error",
-      "message": "No way this is happening!?",
-      "documentation_url": "https://protocol.chat/docs/errors/api_error"
-    }
+      "error": "Access denied, no token given"
+}
     ```
+
+      <CodeGroup title="400 Bad Request" tag="POST" label="/orders">
+
+       ```bash {{ title: 'Request' }}
+      {
+         "name": "Bad request example",
+         "price": 400,
+         "description": "some description",
+         "category": "Star Wars",
+}
+    ```
+
+    ```json {{ title: 'Response' }}
+   [
+      {
+        "code": "invalid_type",
+        "expected": "string",
+        "received": "undefined",
+        "path": [
+            "image"
+        ],
+        "message": "Required"
+      }
+]
+    ```
+
+    </CodeGroup>
 
   </Col>
 </Row>

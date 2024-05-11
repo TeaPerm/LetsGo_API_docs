@@ -7,13 +7,12 @@ import {
   useMotionTemplate,
   useMotionValue,
 } from 'framer-motion'
-
 import { GridPattern } from '@/components/GridPattern'
 import { Heading } from '@/components/Heading'
-import { ChatBubbleIcon } from '@/components/icons/ChatBubbleIcon'
 import { EnvelopeIcon } from '@/components/icons/EnvelopeIcon'
-import { UserIcon } from '@/components/icons/UserIcon'
 import { UsersIcon } from '@/components/icons/UsersIcon'
+import { PackageIcon } from './icons/PackageIcon'
+import { MagnifyingGlassIcon } from './icons/MagnifyingGlassIcon'
 
 interface Resource {
   href: string
@@ -28,25 +27,11 @@ interface Resource {
 
 const resources: Array<Resource> = [
   {
-    href: '/contacts',
-    name: 'Contacts',
+    href: '/products',
+    name: 'Products',
     description:
-      'Learn about the contact model and how to create, retrieve, update, delete, and list contacts.',
-    icon: UserIcon,
-    pattern: {
-      y: 16,
-      squares: [
-        [0, 1],
-        [1, 3],
-      ],
-    },
-  },
-  {
-    href: '/conversations',
-    name: 'Conversations',
-    description:
-      'Learn about the conversation model and how to create, retrieve, update, delete, and list conversations.',
-    icon: ChatBubbleIcon,
+      'Learn about the product model and how to create, retrieve, update, delete, and list products.',
+    icon: PackageIcon,
     pattern: {
       y: -6,
       squares: [
@@ -56,10 +41,24 @@ const resources: Array<Resource> = [
     },
   },
   {
-    href: '/messages',
-    name: 'Messages',
+    href: '/users',
+    name: 'Users',
     description:
-      'Learn about the message model and how to create, retrieve, update, delete, and list messages.',
+      'Learn about the user model and how to create, retrieve, log in and get users.',
+    icon: UsersIcon,
+    pattern: {
+      y: 16,
+      squares: [
+        [0, 1],
+        [1, 3],
+      ],
+    },
+  },
+  {
+    href: '/orders',
+    name: 'Orders',
+    description:
+      'Learn about the order model and how to create, retrieve, delete, checkout, and list orders.',
     icon: EnvelopeIcon,
     pattern: {
       y: 32,
@@ -70,11 +69,11 @@ const resources: Array<Resource> = [
     },
   },
   {
-    href: '/groups',
-    name: 'Groups',
+    href: '/analytics',
+    name: 'Analytics',
     description:
-      'Learn about the group model and how to create, retrieve, update, delete, and list groups.',
-    icon: UsersIcon,
+      'Learn about admin analytics, and how to retrieve them.',
+    icon: MagnifyingGlassIcon,
     pattern: {
       y: 22,
       squares: [[0, 1]],

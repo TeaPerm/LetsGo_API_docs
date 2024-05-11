@@ -1,0 +1,108 @@
+export const metadata = {
+  title: 'Analytics',
+  description:
+    'On this page, we’ll dive into the analytics endpoint the admin can use to view analytics of his API.',
+}
+
+# Analytics
+
+The analytics endpoint empowers administrators to gain comprehensive insights into their performance effortlessly. Through this feature, admins can access crucial metrics such as total sales, overall orders, and identify the top-selling products. With seamless access to such analytics, administrators can make informed decisions to optimize their strategies, enhance user experiences, and drive business growth effectively. {{ className: 'lead' }}
+
+## Fields
+
+<Properties>
+  <Property name="totalUsers" type="int">
+    Total number of users created.
+  </Property>
+  <Property name="totalProducts" type="int">
+    Total number of products created.
+  </Property>
+  <Property name="totalOrders" type="int">
+    Total number of orders created.
+  </Property>
+  <Property name="totalSales" type="int">
+    The total revenue of sales.
+  </Property>
+  <Property name="mostSoldProduct" type="product">
+    The most sold product, included with the total income, quantity, and ordered count of the product.
+  </Property>
+  <Property name="usersWithMostOrders" type="users[]">
+    The users with the most orders.
+  </Property>
+</Properties>
+
+---
+
+## Retrieve analytics {{ tag: 'GET', label: '/analytics' }}
+
+<span className="text-red-500">ONLY ADMIN</span>
+
+<Row>
+  <Col>
+
+    This endpoint facilitates retrieval of analytics data, offering insights into various metrics and trends. 
+    
+     ### Required attributes
+
+    <Properties>
+      <Property name="user_id" type="ObjectId">
+        The _id of the user, given in token from the Authorization header.
+      </Property>
+    </Properties>
+
+     ### Optional attributes
+
+    <Properties>
+      <Property name="users" type="int">
+        The number of users with the most orders to retrieve. Default: 3.
+      </Property>
+    </Properties>
+
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="GET" label="/analytics">
+
+    ```bash {{ title: 'cURL' }}
+    curl -G https://lets-go-phi.vercel.app \
+      -H "Authorization: Bearer {token}" \
+    ```
+
+    </CodeGroup>
+
+    ```json {{ title: 'Response' }}
+    {
+      "totalUsers": 9,
+      "totalProducts": 36,
+      "totalOrders": 20,
+      "totalSales": 2414600,
+      "mostSoldProduct": {
+        "_id": "6633a1bcecb94dd849192101",
+        "totalQuantity": 11,
+        "totalIncome": 385000,
+        "count": 7,
+        "product": {
+            "_id": "6633a1bcecb94dd849192101",
+            "name": "LEGO Star Wars AT-AT™ TESZT AT.",
+            "price": 35000,
+            //...
+        }
+      },
+      "usersWithMostOrders": [
+        {
+            "_id": "662c20da7f42e1de734fe684",
+            "totalOrders": 11,
+            "totalAmount": 946000,
+            "user": {
+                "_id": "662c20da7f42e1de734fe684",
+                "name": "Boyd Labadie",
+                "email": "123@gmail.com"
+            }
+        },
+        //...
+      ]
+}
+    ```
+
+  </Col>
+</Row>

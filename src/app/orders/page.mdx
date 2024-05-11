@@ -176,7 +176,19 @@ The order model contains all the information about the orders including the user
 
    <CodeGroup title="Request" tag="POST" label="/orders/checkout">
 
-    ```json {{ title: 'Response' }}
+       ```bash {{ title: 'cURL' }}
+    curl -X POST https://lets-go-phi.vercel.app \
+      -H "Authorization: Bearer {token}" \
+      -H "Content-Type: application/json" \
+      -d '[
+            {
+              "product_id": "662eb3f04341bfa0b2d43ea3",
+              "quantity": 13
+            }
+          ]'
+    ```
+
+    ```json {{ title: 'Body' }}
    [
       {
         "product_id": "662eb3f04341bfa0b2d43ea3",

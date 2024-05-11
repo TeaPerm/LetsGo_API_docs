@@ -234,11 +234,11 @@ export const navigation: Array<NavGroup> = [
     title: 'Guides',
     links: [
       { title: 'Introduction', href: '/' },
-      { title: 'Quickstart', href: '/quickstart' },
+      // { title: 'Quickstart', href: '/quickstart' },
       { title: 'Authentication', href: '/authentication' },
       { title: 'Pagination', href: '/pagination' },
       { title: 'Errors', href: '/errors' },
-      { title: 'Webhooks', href: '/webhooks' },
+      // { title: 'Webhooks', href: '/webhooks' },
     ],
   },
   {
@@ -247,8 +247,8 @@ export const navigation: Array<NavGroup> = [
       { title: 'Products', href: '/products' },
       { title: 'Users', href: '/users' },
       { title: 'Orders', href: '/orders' },
-      { title: 'Groups', href: '/groups' },
-      { title: 'Attachments', href: '/attachments' },
+      { title: 'Analytics', href: '/analytics' },
+      // { title: 'Groups', href: '/groups' },
     ],
   },
 ]

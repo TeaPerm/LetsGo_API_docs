@@ -1,31 +1,28 @@
 export const metadata = {
   title: 'Pagination',
   description:
-    'In this guide, we will look at how to work with paginated responses when querying the Protocol API',
+    'In this guide, we will look at how to work with paginated responses when querying the LetsGo API',
 }
 
 # Pagination
 
-In this guide, we will look at how to work with paginated responses when querying the Protocol API. By default, all responses limit results to ten. However, you can go as high as 100 by adding a `limit` parameter to your requests. If you are using one of the official Protocol API client libraries, you don't need to worry about pagination, as it's all being taken care of behind the scenes. {{ className: 'lead' }}
+In this guide, we will look at how to work with paginated responses when querying the LetsGo API. By default, there is no response limit. However, the user can add limit by adding `limit` parameter to your requests. {{ className: 'lead' }}
 
-When an API response returns a list of objects, no matter the amount, pagination is supported. In paginated responses, objects are nested in a `data` attribute and have a `has_more` attribute that indicates whether you have reached the end of the last page. You can use the `starting_after` and `endding_before` query parameters to browse pages.
+When an API response returns a list of objects, on some endpoints pagination is supported. 
 
 ## Example using cursors
 
 <Row>
   <Col>
 
-    In this example, we request the page that starts after the conversation with id `s4WycXedwhQrEFuM`. As a result, we get a list of three conversations and can tell by the `has_more` attribute that we have reached the end of the resultset.
+    In this example, we request the page `2` limit `4` from the `/products` endpoint. As a result, we get the second set of four prodcuts.
 
     <Properties>
-      <Property name="starting_after" type="string">
-        The last ID on the page you're currently on when you want to fetch the next page.
+      <Property name="page" type="int">
+         The page of the products returned.
       </Property>
-      <Property name="ending_before" type="string">
-        The first ID on the page you're currently on when you want to fetch the previous page.
-      </Property>
-      <Property name="limit" type="integer">
-        Limit the number of items returned.
+      <Property name="limit" type="int">
+        The limit the number of products returned.
       </Property>
     </Properties>
 
@@ -33,30 +30,44 @@ When an API response returns a list of objects, no matter the amount, pagination
   <Col>
 
     ```bash {{ title: 'Manual pagination using cURL' }}
-    curl -G https://api.protocol.chat/v1/conversations \
-      -H "Authorization: Bearer {token}" \
-      -d starting_after="s4WycXedwhQrEFuM" \
-      -d limit=10
+    curl -G https://lets-go-phi.vercel.app/products \
+      -d page=2 \
+      -d limit=4
     ```
 
     ```json {{ title: 'Paginated response' }}
     {
-      "has_more": false,
-      "data": [
+    "total": 36,
+    "page": 2,
+    "limit": 4,
+    "category": [
+        "Star Wars",
+        "Disney",
+        //...
+    ],
+    "products": [
         {
-          "id": "WAz8eIbvDR60rouK",
-          // ...
+            "_id": "6633e6525fec9229af0bab5e",
+            "name": "Lego NINJAGO® City Markets",
+            //...
         },
         {
-          "id": "hSIhXBhNe8X1d8Et"
-          // ...
+            "_id": "662eb3f04341bfa0b2d43ea3",
+            "name": "LEGO Star Wars AT-AT™",
+            //...
         },
         {
-          "id": "fbwYwpi9C2ybt6Yb"
-          // ...
+            "_id": "663123e86a07b082680ec524",
+            "name": "LEGO® Star Wars™ - Venator-class Republic Attack Cruiser",
+            //...
+        },
+        {
+            "_id": "6633e6535fec9229af0bab60",
+            "name": "Millennium Falcon™",
+            //...
         }
-      ]
-    }
+    ]
+}
     ```
 
   </Col>
