@@ -8,7 +8,7 @@ export const metadata = {
 
 Orders — they are the basic building blocks of LetsGo API. On this page, we'll dive into the different order endpoints you can use to manage orders programmatically. We'll look at how to query, send, update, and delete orders. {{ className: 'lead' }}
 
-## The Order model
+## The order model
 
 The order model contains all the information about the orders including the user identifier and total.
 
@@ -37,7 +37,9 @@ The order model contains all the information about the orders including the user
 
 ---
 
-## List all orders {{ tag: 'GET', label: '/orders - ONLY ADMIN' }}
+## List all orders {{ tag: 'GET', label: '/orders' }}
+
+<span className="text-red-500">ONLY ADMIN</span>
 
 <Row>
   <Col>
@@ -99,7 +101,9 @@ The order model contains all the information about the orders including the user
 
 ---
 
-## Retrieve an order {{ tag: 'GET', label: '/orders/:id - ONLY ADMIN AND USER WHO ORDERED' }}
+## Retrieve an order {{ tag: 'GET', label: '/orders/:id' }}
+
+<span className="text-red-500">ONLY ADMIN AND USER WHO ORDERED</span>
 
 <Row>
   <Col>
@@ -211,7 +215,9 @@ The order model contains all the information about the orders including the user
 
 ---
 
-## Delete a message {{ tag: 'DELETE', label: '/orders/:id - ONLY ADMIN AND USER WHO ORDERED' }}
+## Delete an order {{ tag: 'DELETE', label: '/orders/:id' }}
+
+<span className="text-red-500">ONLY ADMIN AND USER WHO ORDERED</span>
 
 <Row>
   <Col>
