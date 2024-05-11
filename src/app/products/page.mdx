@@ -1,0 +1,272 @@
+export const metadata = {
+  title: 'Products',
+  description:
+    'On this page, we’ll dive into the different product endpoints you can use to manage products programmatically.',
+}
+
+# Products
+
+Products are an essential part of LetsGo. On this page, we’ll dive into the different product endpoints you can use to manage products programmatically. We'll look at how to query, create, update, and delete products. {{ className: 'lead' }}
+
+## The Product model
+
+The product model contains all the information about the products.
+
+### Properties
+
+<Properties>
+  <Property name="_id" type="ObjectId">
+    Unique identifier for the product.
+  </Property>
+  <Property name="name" type="string">
+    The name for the product.
+  </Property>
+  <Property name="price" type="int-32">
+    The price for the product.
+  </Property>
+  <Property name="description" type="string">
+    The description for the product.
+  </Property>
+  <Property name="category" type="string">
+    The category of the product.
+  </Property>
+  <Property name="image" type="string">
+    The category of the product. 
+    Can only be from this array: [
+  "Star Wars",
+  "Disney",
+  "BIONICLE",
+  "Harry Potter",
+  "Batman",
+  "Indiana Jones",
+  "Ninjago",
+  "Minecraft",
+  "Technic",
+  "Architecture",
+  "Ideas",
+];
+  </Property>
+  <Property name="stripePriceId" type="string">
+    The price identifier of the product provided by <span className="font-bold bg-gradient-to-r from-blue-400 via-blue-800 to-orange-700 inline-block text-transparent bg-clip-text"> Stripe </span>
+    .
+  </Property>
+  <Property name="stripeProductId" type="string">
+    The product identifier of the product provided by  <span className="font-bold bg-gradient-to-r from-blue-400 via-blue-800 to-orange-700 inline-block text-transparent bg-clip-text"> Stripe </span>.
+  </Property>
+  <Property name="created_at" type="date">
+    Timestamp of when the contact was created.
+  </Property>
+  <Property name="updated_at" type="date">
+    Timestamp of when the contact was updated.
+  </Property>
+  <Property name="__v" type="int-32">
+    The version key of the product.
+  </Property>
+</Properties>
+
+---
+
+## List all products {{ tag: 'GET', label: '/products' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to retrieve a paginated list of all your products. You can filter them by giving a page, limit, search, sort, and even categories.
+
+    ### Optional attributes
+
+    <Properties>
+      <Property name="page" type="int">
+        Page of the products returned.
+        Default: 1
+      </Property>
+      <Property name="limit" type="int">
+        Limit the number of products returned. Default: 0 
+      </Property>
+      <Property name="search" type="string">
+        Only show products that have this string in them. Default: ""
+      </Property>
+      <Property name="sort" type="string">
+        Sort products by this field, if _asc or _desc is not given, asc is default. Default: "createdAt_desc"
+      </Property>
+      <Property name="category" type="string">
+        Only show products within these categories, separeted by commas (","). Default: "All"
+      </Property>
+    </Properties>
+
+  </Col>
+  <Col sticky>
+
+    ```json {{ title: 'Response' }}
+    {
+    "total": 6,
+    "page": 1,
+    "limit": 3,
+    "category": [
+        "Star Wars"
+    ],
+    "products": [
+        {
+            "_id": "662eb3f04341bfa0b2d43ea3",
+            "name": "LEGO Star Wars AT-AT™",
+            "price": 35000,
+            "description": "Keresse fel a webhelyet az aktuális árakkal és a rendelkezésre állással kapcsolatos információkért. A képek szerzői jogi védelem alatt állhatnak További információ",
+            "category": "Star Wars",
+            "image": "https://www.kockaaruhaz.hu/upload_files/products/75313-box3-v29.webp",
+            "createdAt": "2024-04-28T20:39:13.896Z",
+            "updatedAt": "2024-05-02T14:25:35.351Z"
+        },
+      // ...
+    ]
+}
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Create a product {{ tag: 'POST', label: '/product - ONLY ADMIN' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to add a new products.
+
+    ### Required attributes
+
+     <Properties>
+      <Property name="name" type="string">
+        The name for the product.
+      </Property>
+      <Property name="price" type="int-32">
+        The price for the product.
+      </Property>
+      <Property name="description" type="string">
+        The description for the product.
+      </Property>
+      <Property name="category" type="string">
+        The category for the product.
+      </Property>
+      <Property name="image" type="url">
+        The image for the product.
+      </Property>
+    </Properties>
+  </Col>
+  <Col sticky>
+
+    ```json {{ title: 'Response' }}
+    {
+    "message": "Product created successfully",
+    "product": {
+        "_id": "663f91da8f4737036a41f3eb",
+        "name": "Lego Star Wars Tatooine Toy",
+        "image": "https://w7.pngwing.com/pngs/723/976/png-transparent-lego-star-wars-tatooine-toy-whirlwind-out-of-box-star-destroyer-droid-tusken-raiders.png",
+        "price": 15000,
+        "category": "Star Wars",
+        "description": "Keresse fel a webhelyet az aktuális árakkal és a rendelkezésre állással kapcsolatos információkért. A képek szerzői jogi védelem alatt állhatnak További információ",
+        "stripeProductId": "prod_Q5SzJracSTGeFY",
+        "stripePriceId": "price_1PFI3zJrE0A1jpo1ADGiDs4n"
+    }
+}
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Retrieve a product {{ tag: 'GET', label: '/products/:id' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to retrieve a product by providing the product id. Refer to [the list](#the-conversation-model) at the top of this page to see which properties are included with product objects.
+
+  </Col>
+  <Col sticky>
+
+    ```json {{ title: 'Response' }}
+    {
+    "_id": "6633e6535fec9229af0bab60",
+    "name": "Millennium Falcon™",
+    "price": 25000,
+    "description": "Build the fastest ship in the galaxy and embark on epic adventures!",
+    "category": "Star Wars",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuLW0jHbjnZSN8WhbqnBlRRCw1po0XHxBFlk88HygLdA&s",
+    "createdAt": "2024-05-02T19:15:39.940Z",
+    "updatedAt": "2024-05-02T19:15:39.940Z"
+}
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Update a product {{ tag: 'PUT', label: '/products/:id - ONLY ADMIN' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to perform an update on a conversation. Examples of updates are changing the name price or description.
+
+    ### Optional attributes
+
+     <Properties>
+      <Property name="name" type="string">
+        The name for the product.
+      </Property>
+      <Property name="price" type="int-32">
+        The price for the product.
+      </Property>
+      <Property name="description" type="string">
+        The description for the product.
+      </Property>
+      <Property name="category" type="string">
+        The category for the product.
+      </Property>
+      <Property name="image" type="url">
+        The image for the product.
+      </Property>
+    </Properties>
+
+  </Col>
+  <Col sticky>
+
+    ```json {{ title: 'Response' }}
+    {
+    "message": "Product updated successfully",
+    "newProduct": {
+        "name": "Lego Star Wars Tatooine Toy",
+        "price": 15900,
+        "description": "Keresse fel a webhelyet az aktuális árakkal és a rendelkezésre állással kapcsolatos információkért. A képek szerzői jogi védelem alatt állhatnak További információ",
+        "category": "Star Wars",
+        "image": "https://w7.pngwing.com/pngs/723/976/png-transparent-lego-star-wars-tatooine-toy-whirlwind-out-of-box-star-destroyer-droid-tusken-raiders.png"
+    }
+}
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Delete a product {{ tag: 'DELETE', label: '/product/:id - ONLY ADMIN' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to delete your products in LetsGo. Note: This will permanently delete the product.
+
+  </Col>
+  <Col sticky>
+
+     ```json {{ title: 'Response' }}
+    {
+    "message": "Product deleted successfully"
+}
+    ```
+
+  </Col>
+</Row>

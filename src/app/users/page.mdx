@@ -1,0 +1,196 @@
+export const metadata = {
+  title: 'Users',
+  description:
+    'On this page, we’ll dive into the different users endpoints you can use to manage contacts programmatically.',
+}
+
+# Contacts
+
+As the name suggests, users are a core part of LetsGo. On this page, we'll dive into the different users endpoints you can use to manage users programmatically. We'll look at how to query, create, update, and delete users. {{ className: 'lead' }}
+
+## The user model
+
+The user model contains all the information about your users, such as their full name, email, and password, and whether if they have the admin role.
+
+### Properties
+
+<Properties>
+  <Property name="_id" type="ObjectId">
+    Unique identifier for the user.
+  </Property>
+  <Property name="name" type="string">
+    The name for the user.
+  </Property>
+  <Property name="email" type="string">
+    The email for the user.
+  </Property>
+  <Property name="password" type="string">
+    The hashed password for the user.
+  </Property>
+  <Property name="is_admin" type="boolean">
+    The role of the user.
+  </Property>
+  <Property name="created_at" type="date">
+    Timestamp of when the contact was created.
+  </Property>
+  <Property name="updated_at" type="date">
+    Timestamp of when the contact was updated.
+  </Property>
+  <Property name="__v" type="int-32">
+    The version key of the user.
+  </Property>
+</Properties>
+
+---
+
+## Register a User {{ tag: 'POST', label: '/users/register' }}
+
+<Row>
+  <Col>
+    This endpoint allows you to register a user.
+  ### Required attributes
+
+    <Properties>
+      <Property name="name" type="string">
+        The name for the user.
+      </Property>
+      <Property name="email" type="string">
+        The email for the user.
+      </Property>
+      <Property name="password" type="string">
+        The password for the user.
+      </Property>
+    </Properties>
+
+  </Col>
+  <Col sticky>
+
+    ```json {{ title: 'Response' }}
+    {
+    "message": "User registered successfully",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjNmODY5ZDJlZGNhYjhmMTZhN2ExODciLCJpYXQiOjE3MTU0MzkyNjEsImV4cCI6MTcxNTUyNTY2MX0.CdkcbMM1sm9kceWSopbXlrYZUqhpbrQGUCOgJcvOES0"
+
+}
+```
+
+  </Col>
+</Row>
+
+---
+
+## Create a User {{ tag: 'POST', label: '/users/login' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to add a new user to your user list in LetsGo. To add a user, you must provide their name, email and password.
+
+    ### Required attributes
+
+      <Properties>
+      <Property name="email" type="string">
+        The email of the user.
+      </Property>
+      <Property name="password" type="string">
+        The password of the user.
+      </Property>
+    </Properties>
+
+  </Col>
+  <Col sticky>
+
+    ```json {{ title: 'Response' }}
+    {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjNmODY5ZDJlZGNhYjhmMTZhN2ExODciLCJpYXQiOjE3MTU0Mzk1MDUsImV4cCI6MTcxNTUyNTkwNX0.3_4oS1eyIubo2YfXTD8xe_B-NqxhhCxEEX7zr6PSvbY"
+}
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Retrieve a user {{ tag: 'GET', label: '/users' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to retrieve a user by providing their id. Refer to [the list](#the-contact-model) at the top of this page to see which properties are included with user objects.
+
+    ### Required attributes
+
+      <Properties>
+      <Property name="_id" type="ObjectId">
+        The _id of the user, given in token from the Authorization header.
+      </Property>
+    </Properties>
+  </Col>
+  <Col sticky>
+
+
+    ```json {{ title: 'Response' }}
+    {
+    "user": {
+        "_id": "662ceba7834c9447b5d960e8",
+        "name": "ADMIN",
+        "email": "admin@gmail.com",
+        "is_admin": true
+    }
+}
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Retrieve orders of a user {{ tag: 'GET', label: '/users/orders - ONLY ADMIN AND THE USER' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to retrieve the orders of the user by providing their user id.
+
+    ### Required attributes
+
+      <Properties>
+      <Property name="_id" type="ObjectId">
+        The _id of the user, given in token from the Authorization header.
+      </Property>
+    </Properties>
+  </Col>
+  <Col sticky>
+
+
+    ```json {{ title: 'Response' }}
+    [
+    {
+        "order": {
+            "_id": "663612059b2eac88df0e33ca",
+            "user_id": "662c20da7f42e1de734fe684",
+            "total": 66000,
+            "createdAt": "2024-05-04T10:46:29.406Z"
+        },
+        "orderLines": [
+            {
+                "product_id": {
+                    "_id": "6633e6555fec9229af0bab62",
+                    "name": "BIONICLE: Mask of Light",
+                    "price": 20000,
+                    "description": "Join the legendary heroes in their quest to find the Mask of Light and save the universe!",
+                    "category": "BIONICLE",
+                    "image": "https://www.jatekshop.eu/upload_files/products/Lego-Bionicle-Tahu-A-Tuz-ura-70787.jpg",
+                    "stripePriceId": "price_1PC56NJrE0A1jpo1tIsZaFT8",
+                    "stripeProductId": "prod_Q29PcjiRCRL4cT"
+                },
+                "quantity": 1
+            },
+            //...
+        ]
+    },
+    //...
+]
+    ```
+
+  </Col>
+</Row>
