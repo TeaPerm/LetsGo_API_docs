@@ -1,0 +1,223 @@
+export const metadata = {
+  title: 'Orders',
+  description:
+    'On this page, we’ll dive into the different order endpoints you can use to manage orders programmatically.',
+}
+
+# Orders
+
+Orders — they are the basic building blocks of LetsGo API. On this page, we'll dive into the different order endpoints you can use to manage orders programmatically. We'll look at how to query, send, update, and delete orders. {{ className: 'lead' }}
+
+## The Order model
+
+The order model contains all the information about the orders including the user identifier and total.
+
+### Properties
+
+<Properties>
+  <Property name="_id" type="ObjectId">
+    Unique identifier for the order.
+  </Property>
+  <Property name="user_id" type="ObjectId">
+    Unique identifier for the user the order belongs to.
+  </Property>
+  <Property name="total" type="int-32">
+    The total of the order placed.
+  </Property>
+  <Property name="created_at" type="date">
+    Timestamp of when the contact was created.
+  </Property>
+  <Property name="updated_at" type="date">
+    Timestamp of when the contact was updated.
+  </Property>
+  <Property name="__v" type="int-32">
+    The version key of the order.
+  </Property>
+</Properties>
+
+---
+
+## List all orders {{ tag: 'GET', label: '/orders - ONLY ADMIN' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to retrieve all orders (including orderlines). You can also limit the number of orders you want to receive.
+
+    ### Required attributes
+
+    <Properties>
+      <Property name="user_id" type="ObjectId">
+        The _id of the user, given in token from the Authorization header.
+      </Property>
+    </Properties>
+
+    ### Optional attributes
+
+    <Properties>
+      <Property name="limit" type="int">
+        Limit the number of orders returned.
+      </Property>
+    </Properties>
+
+  </Col>
+  <Col sticky>
+
+    ```json {{ title: 'Response' }}
+   [
+      {
+        "order": {
+            "_id": "663139efb61fff46ef57e16d",
+            "user_id": {
+                "_id": "662c20da7f42e1de734fe684",
+                "name": "Boyd Labadie",
+                "email": "123@gmail.com",
+                "createdAt": "2024-04-26T21:47:06.393Z"
+            },
+            "total": 67000,
+            "createdAt": "2024-04-30T18:35:27.059Z"
+        },
+        "orderLines": [
+            {
+                "product_id": {
+                    "_id": "663106066a07b082680ec491",
+                    "name": "LEGO ARCHITECTURE Colosseum",
+                    "price": 32000,
+                    //...
+                },
+                "quantity": 1
+            },
+            //...
+        ]
+      },
+    //...
+]
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Retrieve an order {{ tag: 'GET', label: '/orders/:id - ONLY ADMIN AND USER WHO ORDERED' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to retrieve an order by providing the order id. Refer to [the list](#the-order-model) at the top of this page to see which properties are included with order objects.
+
+     ### Required attributes
+
+    <Properties>
+      <Property name="user_id" type="ObjectId">
+        The _id of the user, given in token from the Authorization header.
+      </Property>
+    </Properties>
+  </Col> 
+
+  <Col sticky>
+
+    ```json {{ title: 'Response' }}
+    {
+      "order": {
+        "_id": "663139efb61fff46ef57e16d",
+        "user_id": {
+            "_id": "662c20da7f42e1de734fe684",
+            "name": "Boyd Labadie",
+            "email": "123@gmail.com"
+        },
+        "total": 67000,
+        "createdAt": "2024-04-30T18:35:27.059Z",
+        "updatedAt": "2024-04-30T18:35:27.059Z"
+      },
+      "orderlines": [
+        {
+            "product_id": {
+                "_id": "663106066a07b082680ec491",
+                "name": "LEGO ARCHITECTURE Colosseum",
+                "price": 32000,
+                //...
+            },
+            "quantity": 1
+        },
+        //...
+      ]
+}
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Checkout an order {{ tag: 'POST', label: '/orders/checkout' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to checkout an order by providing product id and quantity. It will return an url given by <span className="font-bold bg-gradient-to-r from-blue-400 via-blue-800 to-orange-700 inline-block text-transparent bg-clip-text"> Stripe </span> to checkout and pay.
+
+
+     ### Required attributes
+
+    <Properties>
+      <Property name="user_id" type="ObjectId">
+        The _id of the user, given in token from the Authorization header.
+      </Property>
+      <Property name="product_id" type="ObjectId">
+        The _id of the product, the user wants to checkout.
+      </Property>
+      <Property name="quantity" type="int">
+        The quantity of the product, the user wants to checkout.
+      </Property>
+    </Properties>
+  </Col>
+  <Col sticky>
+
+   <CodeGroup title="Request" tag="POST" label="/orders/checkout">
+
+    ```json {{ title: 'Response' }}
+   [
+      {
+        "product_id": "662eb3f04341bfa0b2d43ea3",
+        "quantity": 13
+      },
+    //...
+]
+    ```
+
+    </CodeGroup>
+
+    ```json {{ title: 'Response' }}
+    {
+      "url": "https://checkout.stripe.com/c/pay/cs_test_b1Isk2tdzzVO9kwJYS3HGIaRi0reSvy7dauU7shv7AqpmK5lhPslsihA7W#fidkdWxOYHwnPyd1blpxYHZxWjA0VURfZ31Pd0A1RDRvdWo0XVFOdzFwbEFNaDNGfHVySmtRajJEPE5nRnNLTEpKXTdxUTZTaWBDVDd9Q2hjXVJQZ3w8cDNSc2JWQGlKaEBINVxRZEI9VTIxNTVfb21vPWd2dycpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPydocGlxbFpscWBoJyknYGtkZ2lgVWlkZmBtamlhYHd2Jz9xd3BgeCUl"
+}
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Delete a message {{ tag: 'DELETE', label: '/orders/:id - ONLY ADMIN AND USER WHO ORDERED' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to delete orders. Note: This will permanently delete the message.
+  ### Required attributes
+
+    <Properties>
+      <Property name="user_id" type="ObjectId">
+        The _id of the user, given in token from the Authorization header.
+      </Property>
+    </Properties>
+  </Col>
+  <Col sticky>
+  ```json {{ title: 'Response' }}
+{
+    "message": "Order deleted succesfully"
+}
+  ```
+  </Col>
+</Row>

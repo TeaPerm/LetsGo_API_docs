@@ -4,7 +4,7 @@ export const metadata = {
     'On this page, we’ll dive into the different users endpoints you can use to manage contacts programmatically.',
 }
 
-# Contacts
+# Users
 
 As the name suggests, users are a core part of LetsGo. On this page, we'll dive into the different users endpoints you can use to manage users programmatically. We'll look at how to query, create, update, and delete users. {{ className: 'lead' }}
 
@@ -43,7 +43,7 @@ The user model contains all the information about your users, such as their full
 
 ---
 
-## Register a User {{ tag: 'POST', label: '/users/register' }}
+## Create a user {{ tag: 'POST', label: '/users/register' }}
 
 <Row>
   <Col>
@@ -65,11 +65,22 @@ The user model contains all the information about your users, such as their full
   </Col>
   <Col sticky>
 
+   <CodeGroup title="Request body" tag="POST" label="/users/register">
+
+    ```json {{ title: 'Request' }}
+    {
+      "name" : "Le Thien Nam",
+      "email" : "lethiennam111@gmail.com",
+      "password": "password" 
+}
+    ```
+
+    </CodeGroup>
+
     ```json {{ title: 'Response' }}
     {
-    "message": "User registered successfully",
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjNmODY5ZDJlZGNhYjhmMTZhN2ExODciLCJpYXQiOjE3MTU0MzkyNjEsImV4cCI6MTcxNTUyNTY2MX0.CdkcbMM1sm9kceWSopbXlrYZUqhpbrQGUCOgJcvOES0"
-
+      "message": "User registered successfully",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjNmODY5ZDJlZGNhYjhmMTZhN2ExODciLCJpYXQiOjE3MTU0MzkyNjEsImV4cCI6MTcxNTUyNTY2MX0.CdkcbMM1sm9kceWSopbXlrYZUqhpbrQGUCOgJcvOES0"
 }
 ```
 
@@ -78,7 +89,7 @@ The user model contains all the information about your users, such as their full
 
 ---
 
-## Create a User {{ tag: 'POST', label: '/users/login' }}
+## Log in a user {{ tag: 'POST', label: '/users/login' }}
 
 <Row>
   <Col>
@@ -99,9 +110,20 @@ The user model contains all the information about your users, such as their full
   </Col>
   <Col sticky>
 
+    <CodeGroup title="Request body"  tag="POST" label="/users/login">
+
+    ```json {{ title: 'Request' }}
+    {
+      "email" : "lethiennam111@gmail.com",
+      "password": "password" 
+}
+    ```
+
+    </CodeGroup>
+
     ```json {{ title: 'Response' }}
     {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjNmODY5ZDJlZGNhYjhmMTZhN2ExODciLCJpYXQiOjE3MTU0Mzk1MDUsImV4cCI6MTcxNTUyNTkwNX0.3_4oS1eyIubo2YfXTD8xe_B-NqxhhCxEEX7zr6PSvbY"
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjNmODY5ZDJlZGNhYjhmMTZhN2ExODciLCJpYXQiOjE3MTU0Mzk1MDUsImV4cCI6MTcxNTUyNTkwNX0.3_4oS1eyIubo2YfXTD8xe_B-NqxhhCxEEX7zr6PSvbY"
 }
     ```
 
@@ -115,7 +137,7 @@ The user model contains all the information about your users, such as their full
 <Row>
   <Col>
 
-    This endpoint allows you to retrieve a user by providing their id. Refer to [the list](#the-contact-model) at the top of this page to see which properties are included with user objects.
+    This endpoint allows you to retrieve a user by providing their id. Refer to [the list](#the-user-model) at the top of this page to see which properties are included with user objects.
 
     ### Required attributes
 
@@ -130,12 +152,12 @@ The user model contains all the information about your users, such as their full
 
     ```json {{ title: 'Response' }}
     {
-    "user": {
+      "user": {
         "_id": "662ceba7834c9447b5d960e8",
         "name": "ADMIN",
         "email": "admin@gmail.com",
         "is_admin": true
-    }
+      }
 }
     ```
 
@@ -154,7 +176,7 @@ The user model contains all the information about your users, such as their full
     ### Required attributes
 
       <Properties>
-      <Property name="_id" type="ObjectId">
+      <Property name="user_id" type="ObjectId">
         The _id of the user, given in token from the Authorization header.
       </Property>
     </Properties>
@@ -164,7 +186,7 @@ The user model contains all the information about your users, such as their full
 
     ```json {{ title: 'Response' }}
     [
-    {
+      {
         "order": {
             "_id": "663612059b2eac88df0e33ca",
             "user_id": "662c20da7f42e1de734fe684",
@@ -177,17 +199,13 @@ The user model contains all the information about your users, such as their full
                     "_id": "6633e6555fec9229af0bab62",
                     "name": "BIONICLE: Mask of Light",
                     "price": 20000,
-                    "description": "Join the legendary heroes in their quest to find the Mask of Light and save the universe!",
-                    "category": "BIONICLE",
-                    "image": "https://www.jatekshop.eu/upload_files/products/Lego-Bionicle-Tahu-A-Tuz-ura-70787.jpg",
-                    "stripePriceId": "price_1PC56NJrE0A1jpo1tIsZaFT8",
-                    "stripeProductId": "prod_Q29PcjiRCRL4cT"
+                    //...
                 },
                 "quantity": 1
             },
             //...
         ]
-    },
+      },
     //...
 ]
     ```

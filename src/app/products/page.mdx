@@ -8,7 +8,7 @@ export const metadata = {
 
 Products are an essential part of LetsGo. On this page, we’ll dive into the different product endpoints you can use to manage products programmatically. We'll look at how to query, create, update, and delete products. {{ className: 'lead' }}
 
-## The Product model
+## The product model
 
 The product model contains all the information about the products.
 
@@ -99,13 +99,13 @@ The product model contains all the information about the products.
 
     ```json {{ title: 'Response' }}
     {
-    "total": 6,
-    "page": 1,
-    "limit": 3,
-    "category": [
+      "total": 6,
+      "page": 1,
+      "limit": 3,
+      "category": [
         "Star Wars"
-    ],
-    "products": [
+      ],
+      "products": [
         {
             "_id": "662eb3f04341bfa0b2d43ea3",
             "name": "LEGO Star Wars AT-AT™",
@@ -117,7 +117,7 @@ The product model contains all the information about the products.
             "updatedAt": "2024-05-02T14:25:35.351Z"
         },
       // ...
-    ]
+      ]
 }
     ```
 
@@ -126,7 +126,7 @@ The product model contains all the information about the products.
 
 ---
 
-## Create a product {{ tag: 'POST', label: '/product - ONLY ADMIN' }}
+## Create a product {{ tag: 'POST', label: '/products - ONLY ADMIN' }}
 
 <Row>
   <Col>
@@ -155,19 +155,33 @@ The product model contains all the information about the products.
   </Col>
   <Col sticky>
 
+   <CodeGroup title="Request body" tag="POST" label="/products">
+
+    ```json {{ title: 'Request' }}
+    {
+      "name": "Cheapest Lego set ever",
+      "price": 150,
+      "description": "Cheapest set ever!",
+      "category": "Star Wars",
+      "image": "https://w7.pngwing.com/pngs/723/976/png-transparent-lego-star-wars-tatooine-toy-whirlwind-out-of-box-star-destroyer-droid-tusken-raiders.png"
+}
+    ```
+
+    </CodeGroup>
+
     ```json {{ title: 'Response' }}
     {
-    "message": "Product created successfully",
-    "product": {
+      "message": "Product created successfully",
+      "product": {
         "_id": "663f91da8f4737036a41f3eb",
-        "name": "Lego Star Wars Tatooine Toy",
+        "name": "Cheapest Lego set ever",
         "image": "https://w7.pngwing.com/pngs/723/976/png-transparent-lego-star-wars-tatooine-toy-whirlwind-out-of-box-star-destroyer-droid-tusken-raiders.png",
-        "price": 15000,
+        "price": 150,
         "category": "Star Wars",
-        "description": "Keresse fel a webhelyet az aktuális árakkal és a rendelkezésre állással kapcsolatos információkért. A képek szerzői jogi védelem alatt állhatnak További információ",
+        "description": "Cheapest set ever!",
         "stripeProductId": "prod_Q5SzJracSTGeFY",
         "stripePriceId": "price_1PFI3zJrE0A1jpo1ADGiDs4n"
-    }
+      }
 }
     ```
 
@@ -181,21 +195,21 @@ The product model contains all the information about the products.
 <Row>
   <Col>
 
-    This endpoint allows you to retrieve a product by providing the product id. Refer to [the list](#the-conversation-model) at the top of this page to see which properties are included with product objects.
+    This endpoint allows you to retrieve a product by providing the product id. Refer to [the list](#the-product-model) at the top of this page to see which properties are included with product objects.
 
   </Col>
   <Col sticky>
 
     ```json {{ title: 'Response' }}
     {
-    "_id": "6633e6535fec9229af0bab60",
-    "name": "Millennium Falcon™",
-    "price": 25000,
-    "description": "Build the fastest ship in the galaxy and embark on epic adventures!",
-    "category": "Star Wars",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuLW0jHbjnZSN8WhbqnBlRRCw1po0XHxBFlk88HygLdA&s",
-    "createdAt": "2024-05-02T19:15:39.940Z",
-    "updatedAt": "2024-05-02T19:15:39.940Z"
+      "_id": "6633e6535fec9229af0bab60",
+      "name": "Millennium Falcon™",
+      "price": 25000,
+      "description": "Build the fastest ship in the galaxy and embark on epic adventures!",
+      "category": "Star Wars",
+     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuLW0jHbjnZSN8WhbqnBlRRCw1po0XHxBFlk88HygLdA&s",
+      "createdAt": "2024-05-02T19:15:39.940Z",
+      "updatedAt": "2024-05-02T19:15:39.940Z"
 }
     ```
 
@@ -234,16 +248,30 @@ The product model contains all the information about the products.
   </Col>
   <Col sticky>
 
+    <CodeGroup title="Request body" tag="PUT" label="/products/:id">
+
+    ```json {{ title: 'Request' }}
+    {
+      "name": "Most expensive Lego set ever",
+      "price": 569000,
+      "description": "You might not want to buy this",
+      "category": "Disney",
+      "image": "https://w7.pngwing.com/pngs/723/976/png-transparent-lego-star-wars-tatooine-toy-whirlwind-out-of-box-star-destroyer-droid-tusken-raiders.png"
+}
+    ```
+
+    </CodeGroup>
+
     ```json {{ title: 'Response' }}
     {
-    "message": "Product updated successfully",
-    "newProduct": {
-        "name": "Lego Star Wars Tatooine Toy",
-        "price": 15900,
-        "description": "Keresse fel a webhelyet az aktuális árakkal és a rendelkezésre állással kapcsolatos információkért. A képek szerzői jogi védelem alatt állhatnak További információ",
-        "category": "Star Wars",
+      "message": "Product updated successfully",
+      "newProduct": {
+        "name": "Most expensive Lego set ever",
+        "price": 569000,
+        "description": "You might not want to buy this",
+        "category": "Disney",
         "image": "https://w7.pngwing.com/pngs/723/976/png-transparent-lego-star-wars-tatooine-toy-whirlwind-out-of-box-star-destroyer-droid-tusken-raiders.png"
-    }
+      }
 }
     ```
 
@@ -258,13 +286,19 @@ The product model contains all the information about the products.
   <Col>
 
     This endpoint allows you to delete your products in LetsGo. Note: This will permanently delete the product.
+ ### Required attributes
 
+     <Properties>
+      <Property name="user_id" type="ObjectId">
+        The _id of the user, given in token from the Authorization header.
+      </Property>
+    </Properties>
   </Col>
   <Col sticky>
 
      ```json {{ title: 'Response' }}
     {
-    "message": "Product deleted successfully"
+       "message": "Product deleted successfully"
 }
     ```
 
